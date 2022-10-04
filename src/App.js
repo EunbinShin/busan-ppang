@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import Grid from '@mui/material/Grid';
+
+import Busan from './components/busan/Busan';
+import TodoList from './components/todos/TodoList';
 
 function App() {
+//https://mui.com/material-ui/react-list/
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Grid container spacing={1}
+     sx={{
+      backgroundColor: "gray",
+      height: '100vh'
+    }}>
+      <Grid item lg={7}>
+        <Busan/>
+      </Grid>
+      <Grid item lg={5} 
+        style={{backgroundColor:'pink'}}>
+        <TodoList/>
+      </Grid>
+    </Grid>
   );
 }
 
