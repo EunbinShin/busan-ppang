@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import mapContext from './map-context';
 import paths from './path';
 
@@ -74,7 +74,15 @@ const MapProvider = (props) => {
             name: '수영구',
             id: 'Suyeong-gu',
             coord: paths[11],
-            bakery: []
+            bakery: [
+                {name: '옵스', isChecked: false},
+                {name: '빵은 이지비아', isChecked: false},
+                {name: '릴리 케이크', isChecked: false},
+                {name: '마린느', isChecked: false},
+                {name: '브레드 슈가', isChecked: false},
+                {name: '무띠', isChecked: false},
+                {name: '브랑제리 구제', isChecked: false}
+            ]
         },
         {
             name: '영도구',
@@ -90,10 +98,19 @@ const MapProvider = (props) => {
         }
     ]
 
+    const [bakeryList, setBakeryList] = useState([])
+
+    const stateClickHandler = (index) => {
+        console.log('stateClickHandler:', busanState[index].name)
+        setBakeryList(busanState[index].bakery)
+    }
+
     return (
         <mapContext.Provider
             value={{
-                states:busanState
+                states:busanState,
+                bakeryList: bakeryList,
+                onClickState: stateClickHandler
             }}>
             {props.children}
         </mapContext.Provider>
