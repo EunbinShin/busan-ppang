@@ -12,36 +12,29 @@ const CityMap = () => {
     const [cursorData, setCursorData] = useState({
         name:"", count:0, x:0, y:0
     })
+    //https://stackoverflow.com/questions/54972131/im-trying-to-get-this-cursor-effect-on-react
 
     const [isHover, setIsHover] = useState(false)
 
     const mouseEnterHandler = (state, event) => {
         setIsHover(true)
+        //console.log(event.target.getBoundingClientRect())
         const data = {
             name: state.name,
             count: state.bakery.length,
-            x: event.clientX,
-            y: event.clientY,
+            x: event.target.getBoundingClientRect().x + event.target.getBoundingClientRect().width / 2,
+            y: event.target.getBoundingClientRect().y + event.target.getBoundingClientRect().height / 2,
         }
         setCursorData(data)
     }
 
-    const mouseMoveHandler = (event) => {
-        const data = {
-            ...cursorData,
-            x: event.clientX,
-            y: event.clientY,
-        }
-        setCursorData(data)
-    }
-
-    const mouseLeaveHandler = (event) => {
-        setIsHover(false)
+    const mouseEnterChildHandler = () => {
+        setIsHover(true)
     }
 
     return (
         <>
-            <Test name={'test'} x={cursorData.x} y={cursorData.y} />
+            {isHover && <Test name={'test'} x={cursorData.x} y={cursorData.y} mousehandler={mouseEnterChildHandler}/>}
             <svg 
             xmlnssvg="http://www.w3.org/2000/svg" 
             xmlnsdc="http://purl.org/dc/elements/1.1/" 
@@ -55,22 +48,22 @@ const CityMap = () => {
             id="Busan" x="0px" y="0px" width="100%" height="100%" viewBox="-5.5 60.5 600 450">
                 {mapCtx.states.map((state, index)=>
                     <path 
+                        className={isHover && cursorData.name === state.name ? 'pathhover' : ''}
                         id={state.id} 
                         key={state.id}
                         d={state.coord}
                         onClick={mapCtx.onClickState.bind(null, index)} 
                         onMouseEnter={(e)=>{mouseEnterHandler(state, e)}}
-                        onMouseMove={mouseMoveHandler}
-                        onMouseLeave={mouseLeaveHandler}
+                        onMouseLeave={()=>{setIsHover(false)}}
                         fill="#C8C8C8" stroke="#FEFEE9"/>
                 )}
             </svg>
         </>
     );
-};
+}
 
 export default CityMap;
-/*
+/*{//
 
 <path id="Buk-gu" fill="#C8C8C8" stroke="#FEFEE9" d={mapCtx.states[0].coord}/>
             <path id="Busanjin-gu" fill="#C8C8C8" stroke="#FEFEE9" d={mapCtx.states[1].coord} />
